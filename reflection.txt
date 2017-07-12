@@ -1,0 +1,21 @@
+1. Describe the effect each of the P, I, D components had in your implementation.
+
+P components is proportional to cte (cross track error).
+I components is proportional to time integral of cte, which is used to eliminate bias.
+D components is porportional to time differential of cte, which is used to eliminate model's osscilation.
+
+2. Describe how the final hyperparameters were chosen.
+
+Done by manual tuning. First Kp, secondly Kd, and lastly Ki was tuned in sequence.
+Kp was tuned not to produce too much overshoot.
+Kd was tuned to eliminate osscilation that P controller produced.
+Ki was tuned to eliminate bias.
+
+3. (Optional) Comment on this project.
+
+Why time was not provided from the simulator, which is essential to calculate time differential and integral of I and D controller?
+In my opinion, the PID function should include time difference as argument, like UpdateError(double cte, double dt), but not UpdateError(double cte).
+Because time was not provided, I assumed the web-socket message is received in constant time.
+
+I also assumed the cte has no noise. If there's any, D controller might produce large error if simple difference method was used.
+In that case some kind of low-pass filter or rich difference method should be used to smooth the D controller output.
